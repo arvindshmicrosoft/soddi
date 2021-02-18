@@ -188,7 +188,7 @@ namespace Salient.StackExchange.Import.Configuration
             else
             {
                 return
-                    string.Format("Source  : {0}\r\nTarget  : {1}\r\nOptions : {2}", Source, Target, Options);
+                    string.Format("Source  : {0}\r\nTarget  : {1}\r\nOptions : {2}\r\nTargets  : {3}", Source, Target, Options, string.Join(" ", Targets.Select(t => t.Schema).ToArray()));
             }
         }
 
@@ -239,6 +239,7 @@ namespace Salient.StackExchange.Import.Configuration
                 ImportTarget site = GetSite(source, arg);
                 if (site != null)
                 {
+                    site.Schema = arg;
                     targets.Add(site);
                 }
             }

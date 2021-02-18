@@ -82,6 +82,7 @@ namespace Salient.StackExchange.Import.Loaders.MsSql
                     {
                         command.CommandType = CommandType.Text;
                         command.CommandText = $"SET IDENTITY_INSERT {DestinationTableName} ON";
+                        command.CommandTimeout = this.BulkCopyTimeout;
                         command.ExecuteNonQuery();
                     }
                 }
@@ -96,6 +97,7 @@ namespace Salient.StackExchange.Import.Loaders.MsSql
                     {
                         command.CommandType = CommandType.Text;
                         command.CommandText = $"SELECT COUNT_BIG(*) FROM {DestinationTableName}";
+                        command.CommandTimeout = this.BulkCopyTimeout;
                         var rowCount = (long) command.ExecuteScalar();
                         OnRowsInserted(new BulkCopyEventArgs {Count = rowCount, Type = CopyEventType.Complete});
                     }
@@ -112,6 +114,7 @@ namespace Salient.StackExchange.Import.Loaders.MsSql
                         {
                             command.CommandType = CommandType.Text;
                             command.CommandText = $"SET IDENTITY_INSERT {DestinationTableName} OFF";
+                            command.CommandTimeout = this.BulkCopyTimeout;
                             command.ExecuteNonQuery();
                         }
 
@@ -119,7 +122,8 @@ namespace Salient.StackExchange.Import.Loaders.MsSql
                         {
                             command.CommandType = CommandType.Text;
                             command.CommandText =
-                                $"DBCC CHECKIDENT('{DestinationTableName.Replace("[", string.Empty).Replace("]", string.Empty)}', RESEED)";
+                                $"DBCC CHECKIDENT('{DestinationTableName}', RESEED)";   // .Replace("[", string.Empty).Replace("]", string.Empty)
+                            command.CommandTimeout = this.BulkCopyTimeout;
                             command.ExecuteNonQuery();
                         }
                     }

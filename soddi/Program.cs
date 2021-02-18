@@ -75,8 +75,7 @@ namespace Salient.StackExchange.Import
                 }
             }
             catch (Exception ex)
-            {
-                
+            {                
                 Console.WriteLine("\r\n{0}\r\n",ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 var inner = ex.InnerException;

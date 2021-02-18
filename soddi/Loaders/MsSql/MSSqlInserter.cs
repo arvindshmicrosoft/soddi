@@ -59,7 +59,7 @@ namespace Salient.StackExchange.Import.Loaders.MsSql
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandTimeout = 300;
-                    cmd.CommandText = string.Format("CREATE SCHEMA {0} AUTHORIZATION [dbo]", schema);
+                    cmd.CommandText = string.Format("CREATE SCHEMA [{0}] AUTHORIZATION [dbo]", schema);
 
                     try
                     {

@@ -146,7 +146,7 @@ namespace Salient.StackExchange.Import.Loaders
                             aborted = true;
                         }
                     };
-                _bc.BulkCopyTimeout = 35000;
+                _bc.BulkCopyTimeout = 0;   // bump this up
 
                 _bc.DestinationTableName = string.IsNullOrEmpty(Schema)
                                                ? Table
@@ -176,6 +176,17 @@ namespace Salient.StackExchange.Import.Loaders
             }
             catch (Exception ex)
             {
+                Console.WriteLine("\r\n{0}\r\n", ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                var inner = ex.InnerException;
+                while (inner != null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(inner.Message);
+                    Console.WriteLine(inner.StackTrace);
+                    inner = inner.InnerException;
+                }
+
                 OnRowsInserted(CopyEventType.Error, ex.Message);
             }
         }
